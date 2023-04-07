@@ -2,7 +2,7 @@
 
 | Student's name | SCIPER |
 | -------------- | ------ |
-| Chenyu Han| |
+| Chenyu Han| 331319|
 | Haoying Lyu| 336582|
 | Yuxin Wang| 338745|
 
@@ -50,9 +50,25 @@ Organize and compare food specific information to visualize the followings:
 
 
 ### Exploratory Data Analysis
-**TODO!**
-> Pre-processing of the data set you chose
-> - Show some basic statistics and get insights about the data
+
+Since we plan to use 4 different datasets, the preprocessing of each dataset is important before we combine them together. Here are some results of the preprocessings. Details can be found in the [notebook](https://github.com/com-480-data-visualization/project-2023-the-travelers/blob/master/Notebook/Milestone1.ipynb)
+- Food Ingredients
+    
+    This dataset contains a list of food ingredients. We can obtain the distribution of food ingredients from this dataset.
+
+- FoodData Central - Nutrition and Component data
+
+    This dataset comes from U.S. Department of Agriculture, and contains several complex csv files. It contains some incorrect data, thus cleaning is necessary. 
+
+    After basic processings, we can find some interesting and reasonable facts. For example, oil, butter and nuts are among the foods with highest energy, followed by popcorn, chocolate and chips. Companies like Hawaiian Host Inc., Lindt & Sprungli (Schweiz) AG and Alter Eco Americas Inc. are producing high-energy foods.
+
+- Diets, Recipes And Their Nutrients
+
+    This dataset contains nutrient values of different recipes. All of the recipes in this dataset belong to a certain type of diet (including dash, keto, mediterranean, paleo and vegan). After some basic processings, we can see the average nutrient values of different diets and different regions.
+
+- Nutrient Adequacy of Global Food Production
+
+    This dataset contains one excel file with 4 worksheets. It contains the food group contribution to different nutrients, and also adequacy ratio of different countries and nutrients. With basic processings, we can find out which countries produces different types of food products evenly, and which countries produces mainly one or a few types of food.
 
 ### Related work
 
