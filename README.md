@@ -58,6 +58,8 @@ Since we plan to use 4 different datasets, the preprocessing of each dataset is 
 
 - FoodData Central - Nutrition and Component data
 
+    This dataset is relatively large, some of the csv files are compressed. To run the script correctly, please decompress them first!
+
     This dataset comes from U.S. Department of Agriculture, and contains several complex csv files. It contains some incorrect data, thus cleaning is necessary. 
 
     After basic processings, we can find some interesting and reasonable facts. For example, oil, butter and nuts are among the foods with highest energy, followed by popcorn, chocolate and chips. Companies like Hawaiian Host Inc., Lindt & Sprungli (Schweiz) AG and Alter Eco Americas Inc. are producing high-energy foods.
