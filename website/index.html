@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Food Travelers Data Visualization</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/menu.css">
+<link rel="stylesheet" href="css/ingredients.css">
+<link rel="stylesheet" href="css/country.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+<style>
+body, html {height: 100%}
+body,h1,h2,h3,h4,h5,h6 {font-family: "Inconsolata", sans-serif}
+.bgimg {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("imgs/home_background.jpg");
+    min-height: 85%;
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation bar (sit on top) -->
+<div class="navigation">
+  <a class="active" href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#ingredients">Ingredients</a>
+  <a href="#menu">Diet Menu</a>
+  <a href="#country">Country Production</a>
+</div>
+  
+<!-- Header with image -->
+<header class="bgimg home_header" id="home">
+  <div class="header">
+    <p> All About<br>Food</p>
+  </div>
+</header>
+
+<div class = "about" id="about">
+  <div class = "intro" style="max-width:800px">
+    <h5 class="tag">ABOUT THIS PROJECT</h5>
+    <p style="font-size: 16px">Diverse studies have revealed the importance of food on biological, cultural and psychological aspects. Biologically, food provides essential nutrients for development and maintenance of our bodies. Culturally, food plays a role in defining the identity of communities and cultures. Psychologically, food can have a significant impact on our moods and emotions. In this project, we hope to visually present and compare important information such as the nutritional content of food, so that users can enjoy the interface and interact with it to have healthier eating habits and understand the diverse connections between food and human civilization.</p>
+  </div>  
+</div>
+
+<!-- Ingredients Container -->
+<div class="ingred_vis" id="ingredients">
+  <div class = "ingredients">
+    <h5 class="tag">Different ingredients in different food</h5>
+    <p style="font-size: 16px">Visualization of food ingredients.</p>
+    <img src="imgs/nutrient.jpg" width="800px" height=auto>
+  </div>   
+</div>
+
+<!-- Menu Container -->
+<div class="menu_vis" id="menu">
+  <h5 class="tag">Different diet menus</h5>
+  <p>Visualization of menu</p>
+  <center>
+    <div class="content">
+      <h3>Vegan Diet Recipe:</h3>
+      <img src="imgs/vegan.jpg" width="800px" height=auto>
+    </div>
+
+    <!-- pagination elements -->
+    <div class="pagination">
+        <a href="#"><<</a>
+        <a href="#" title="Loose weight">1</a>
+        <a href="#" title="Asian">2</a>
+        <a href="#" title="High Protein">3</a>
+        <a href="#" title="Vegan" class="active">4</a>
+        <a href="#" title="Gluten Free">5</a>
+        <a href="#">>></a>
+    </div>
+  </center>
+</div>
+
+<!-- Country Container -->
+<div class="country_vis" id="country">
+  <h5 class="tag">Food production across countries</h5>
+  <p>Visualization of Country Production</p>  
+</div>
+
+
+</body>
+</html>
