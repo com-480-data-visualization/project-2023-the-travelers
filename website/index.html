@@ -20,6 +20,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Inconsolata", sans-serif}
     min-height: 85%;
 }
 </style>
+<script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 <body>
 
@@ -57,6 +58,101 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Inconsolata", sans-serif}
   <div class="w3-content" style="max-width:700px">
     <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">Nutrient ingredients in different food</span></h5>
     <p style="font-size: 16px">Visualization of food ingredients.</p>
+    <svg viewBox="0 0 100 70" preserveAspectRatio="xMidYMid meet" width="100%" height="auto">
+      <!--polygon points="0,0 0,70 100,70 100,0" fill="none" stroke="black"/-->
+      <!--polygon points="0,0 0,14 100,14 100,0" fill="none" stroke="red"/-->
+      <text x="2" y="7" font-size="7" fill="black" text-anchor="start" dominant-baseline="central">Food Group Macros</text>
+      <text x="73.6" y="13.5" font-size="1.8" fill="black" text-anchor="end">Protein</text>
+      <text x="88.4" y="13.5" font-size="1.8" fill="black" text-anchor="start">Fat</text>
+      <text x="81" y="1.4" font-size="1.8" fill="black" text-anchor="middle">Carb</text>
+      <polygon points="81,1.6 88,13.6 74,13.6" fill="none" stroke="black" stroke-width="1" vector-effect="non-scaling-stroke" dominant-baseline="text-bottom"/>
+    </svg>
+    <script>
+      let svg = d3.select("svg");
+      const f = function(i) {
+        const r = 10
+        const htext = 14
+        return (i%4*25+12.5)+","+(Math.floor(i/4)*25+htext+12.5-r)+" "+(i%4*25+12.5-r/2*Math.sqrt(3))+","+(Math.floor(i/4)*25+htext+12.5+r/2)+" "+(i%4*25+12.5+r/2*Math.sqrt(3))+","+(Math.floor(i/4)*25+htext+12.5+r/2)
+      }
+      const getcx = function(d, i) {
+        const r = 10;
+        const htext = 14;
+        let x1 = i % 4 * 25 + 12.5;
+        let x2 = i % 4 * 25 + 12.5 - r / 2 * Math.sqrt(3);
+        let x3 = i % 4 * 25 + 12.5 + r / 2 * Math.sqrt(3);
+        return d[0] * x1 + d[1] * x2 + d[2] * x3;
+      }
+      const getcy = function(d, i) {
+        const r = 10;
+        const htext = 14;
+        let x1 = Math.floor(i/4)*25+htext+12.5-r;
+        let x2 = Math.floor(i/4)*25+htext+12.5+r/2;
+        let x3 = Math.floor(i/4)*25+htext+12.5+r/2;
+        return d[0] * x1 + d[1] * x2 + d[2] * x3;
+      }
+      const gettextx = function(i) {
+        const r = 10;
+        const htext = 14;
+        return i % 4 * 25 + 12.5;
+      }
+      const gettexty = function(i) {
+        const r = 10;
+        const htext = 14;
+        return Math.floor(i/4)*25+htext+12.5+r/2 + 1;
+      }
+      svg.selectAll('nothing')
+         .data([1,1,1,1,1,1,1,1])
+         .enter()
+         .append('polygon')
+           .attr('points', (d, i) => f(i))
+           .style('fill', 'none')
+           .attr('stroke', 'black')
+           .attr('stroke-width', 1)
+           .attr('vector-effect', 'non-scaling-stroke');
+      svg.selectAll('nothing')
+         .data(['Beverages', 'Sweets', 'Baked Goods', 'Fruits and Juices', 'Legumes', 'Baby Foods', 'Fast Foods', 'Soups, Sauces, and Gravies'])
+         .enter()
+         .append('text')
+           .attr('x', (d, i) => gettextx(i))
+           .attr('y', (d, i) => gettexty(i))
+           .attr('font-size', 1.8)
+           .attr('fill', 'black')
+           .attr('text-anchor', 'middle')
+           .attr('dominant-baseline', 'hanging')
+           .text((d, i) => d);
+      let random = d3.randomUniform(0, 1);
+      let randdata = [];
+      for (let i = 0; i < 500; i++) {
+        let u = random();
+        let v = random() * (1 - u);
+        let w = (1 - u - v);
+        randdata.push([u, v, w]);
+      }
+      svg.selectAll('nothing')
+         .data(randdata)
+         .enter()
+         .append('circle')
+           .attr('cx', (d, i) => getcx(d, Math.floor(random() * 8)))
+           .attr('cy', (d, i) => getcy(d, Math.floor(random() * 8)))
+           .attr('r', 0.5)
+           .style('fill', 'none')
+           .attr('stroke', 'black')
+           .attr('stroke-width', 0.8)
+           .attr('vector-effect', 'non-scaling-stroke')
+    </script>
+    <!--script>
+      let svg = d3.select("svg");
+      let circles2 = svg.selectAll("circle")
+                        .data([10, 20, 50, 100])
+                        .enter()
+                        .append('circle')
+                          .attr('cx', (d, i) => 100 * (i + 1))
+                          .attr('cy', (d, i) => 100 * (i + 1))
+                          .attr('r', d => d)
+                          .style("fill", "blue");
+    </script-->
+    
+    <p></p>
     <img src="imgs/nutrient.jpg" width="800px" height=auto> 
   </div>
 </div>
