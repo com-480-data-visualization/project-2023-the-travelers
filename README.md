@@ -95,6 +95,9 @@ During our search, we found many great data visualizations of food and were insp
 
 **10% of the final grade**
 
+Skeleton of website https://com-480-data-visualization.github.io/project-2023-the-travelers/website/index.html
+Report https://github.com/com-480-data-visualization/project-2023-the-travelers/blob/master/Milestone%202.pdf
+
 
 ## Milestone 3 (4th June, 5pm)
 
