@@ -21,6 +21,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Inconsolata", sans-serif}
 }
 </style>
 <script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.20.0.min.js" charset="utf-8"></script>
 </head>
 <body>
 
@@ -181,13 +182,97 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Inconsolata", sans-serif}
 </div>
 
 <!-- Country Container -->
+<div class="w3-container" id="menu">
+  <div class="w3-content" style="max-width:700px">
+    <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">WORLDWIDE FOOD PRODUCTION</span></h5>
+    <p>Visualization of Nutrition Adequacy Ratio of Countries</p>
+    <div id="myDiv" class="w3-center mapplot" data-num="0">
+      <div class="plot" id="plotdiv"></div>
+      <div class="control-row">
+        Nutrition: <select class="columndata"></select>
+      </div>
+    </div>
+    <script>
+      d3.json('https://raw.githubusercontent.com/com-480-data-visualization/project-2023-the-travelers/master/website/json/world.geojson').then(function(mapjson){
+      d3.csv('https://raw.githubusercontent.com/com-480-data-visualization/project-2023-the-travelers/master/Data/Global.csv').then(function(rows){
+
+        function unpack(rows, key) {
+          return rows.map(function(row) { return row[key]; });
+        }
+
+        var allColumns = ['Energy', 'Protein', 'Zinc', 'Iron', 'Calcium', 'Selenium', 'Magnesium', 'Vitamin C', 'Thiamine', 'Riboflavin', 'Niacin', 'Vitamin B6', 'Pathothenate', 'Vitamin B12', 'Folate', 'Vitamin A', 'Vitamin E', 'Vitamin K', 'Polyunsaturate fatty acids', 'Phosphorus', 'Manganese', 'Copper', 'Choline', 'Potassium', 'Fibre', 'Food Production Adequacy indic ator'],
+        listofColumns = [],
+        currentColumn;
+
+        for (var i = 0; i < allColumns.length; i++) {
+          if (listofColumns.indexOf(allColumns[i]) === -1) {
+            listofColumns.push(allColumns[i]);
+          }
+        }
+
+        setColumnPlot('Food Production Adequacy indic ator');
+
+        function setColumnPlot(chosenColumn) {
+
+          var data = [{
+            type: 'choropleth',
+            locations: unpack(rows, 'Country Code'),
+            locationmode: 'geojson-property',
+            z: unpack(rows, chosenColumn),
+            text: unpack(rows, 'Country'),
+            geojson: mapjson,
+            featureidkey: 'properties.SOC',
+            zmin: 0,
+            zmax: 1,
+            colorscale: [
+              [0, 'rgb(255, 0, 0)'],
+              [1, 'rgb(170, 255, 140)']
+            ]
+
+          }];
+
+          var layout = {
+            title: chosenColumn,
+            geo: {
+              projection: {
+                type: 'robinson'
+              }
+            },
+          };
+
+          Plotly.newPlot("plotdiv", data, layout, {showLink: false});
+        };
+
+        var innerContainer = document.querySelector('[data-num="0"');
+        var plotEl = innerContainer.querySelector('.plot');
+        var columnSelector = innerContainer.querySelector('.columndata');
+
+        function assignOptions(textArray, selector) {
+          for (var i = 0; i < textArray.length; i++) {
+            var currentOption = document.createElement('option');
+            currentOption.text = textArray[i];
+            selector.appendChild(currentOption);
+          }
+        }
+
+        assignOptions(listofColumns, columnSelector);
+
+        function updateColumn() {
+          setColumnPlot(columnSelector.value);
+        }
+        
+        columnSelector.addEventListener('change', updateColumn, false);
+
+      });});
+
+    </script>
+    
+  </div>
+</div>
 
 
 <div class="w3-container" id="world">
   <div class="w3-content" style="max-width:700px">
-    <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">WORLDWIDE FOOD PRODUCTION</span></h5>
-    <p>Visualization of Country Production</p>
-    <img src="imgs/world.jpg" width="800px" height=auto>
     <div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
       <script type="text/javascript">/**
 * plotly.js v2.12.1
