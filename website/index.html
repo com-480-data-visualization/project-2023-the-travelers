@@ -117,11 +117,12 @@ iframe {
 <div class="w3-container" id="nutrients">
   <div class="w3-content" style="max-width:700px" plot-num="0">
     <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">Nutrient ingredients in different food</span></h5>
-    <p style="font-size: 16px">Visualization of food ingredients.</p>
+    <p style="font-size: 16px">Each point in the ternary diagram is a single food in the food group and is plotted as a ternary diagram according to the relative proportion of nutrients it contains.</p>
+    <p>The value of each datapoint is the percentile of the nutrient value among all the foods.</p>
     <svg viewBox="0 0 100 70" preserveAspectRatio="xMidYMid meet" width="100%" height="auto">
       <!--polygon points="0,0 0,70 100,70 100,0" fill="none" stroke="black"/-->
       <!--polygon points="0,0 0,14 100,14 100,0" fill="none" stroke="red"/-->
-      <text x="2" y="7" font-size="7" fill="black" text-anchor="start" dominant-baseline="central">Food Group Macros</text>
+      <text x="2" y="7" font-size="7" fill="black" text-anchor="start" dominant-baseline="central">Food Group Nutrients</text>
       <text x="73.6" y="13.5" font-size="1.8" fill="black" text-anchor="end" text-id="2">protein</text>
       <text x="88.4" y="13.5" font-size="1.8" fill="black" text-anchor="start" text-id="3">fat</text>
       <text x="81" y="1.4" font-size="1.8" fill="black" text-anchor="middle" text-id="1">carb</text>
@@ -204,7 +205,6 @@ iframe {
             var v = +rows[i][nutritions[1]];
             var w = +rows[i][nutritions[2]];
             var x = +rows[i]['cate_id'];
-            console.log(x);
             var tot = u + v + w;
             u /= tot;
             v /= tot;
@@ -219,8 +219,8 @@ iframe {
               .attr('cy', (d) => getcy(d[0], d[1]))
               .attr('r', 0.5)
               .style('fill', 'none')
-              .attr('stroke', 'black')
-              .attr('stroke-width', 0.3)
+              .attr('stroke', 'rgb(64,64,64)')
+              .attr('stroke-width', 0.001)
               .attr('vector-effect', 'non-scaling-stroke')
         }
 
@@ -267,30 +267,6 @@ iframe {
   </div>
 </div>
 
-<!-- Menu Container -->
-<div class="w3-container" id="menu">
-  <div class="w3-content" style="max-width:700px">
-    <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">Different diet menus</span></h5>
-    <!-- <div class="w3-center">
-      <h3>Vegan Diet Recipe:</h3>
-      <img src="imgs/menu.jpg" width="800px" height=auto>
-    </div> -->
-
-    <!-- pagination elements -->
-    <!-- <div class="w3-center">
-      <div class="pagination">
-        <a href="#"><<</a>
-        <a href="#" title="Loose weight">1</a>
-        <a href="#" title="Asian">2</a>
-        <a href="#" title="High Protein">3</a>
-        <a href="#" title="Vegan" class="active">4</a>
-        <a href="#" title="Gluten Free">5</a>
-        <a href="#">>></a>
-      </div>
-    </div> -->
-  </div>
-</div>
-
 <!-- Country Container -->
 <div class="w3-container" id="world">
   <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">WORLDWIDE FOOD PRODUCTION</span></h5>
@@ -304,7 +280,8 @@ iframe {
   </div>
   <div class="w3-content" style="max-width:700px" id="worldmap">
     <h4 class="w3-center w3-padding-64"><span class="subtag w3-wide">World Map of Nutrient Adeauacy Ratio</span></h4>
-    <p>Visualization of Nutrition Adequacy Ratio of Countries</p>
+    <p>Nutrient Adequacy Ratio is the ratio of nutrients' production to demand. Ratio greater than 1 means the country produces enough food with certain nutrient, so that the nationals' demand for this type of nutrient can be satisfied. Otherwise, the country will have to import food, or its nationals will have to suffer from malnutrition.</p>
+    <p>Below is an interactive choropleth map that shows Nutrient Adequacy Ratio of different countries of different type of nutrients, and also the general adequacy ratio. </p>
     <div id="myDiv" class="w3-center mapplot" data-num="0">
       <div class="plot" id="plotdiv"></div>
       <div class="control-row">
@@ -344,8 +321,10 @@ iframe {
             zmin: 0,
             zmax: 1,
             colorscale: [
-              [0, 'rgb(255, 0, 0)'],
-              [1, 'rgb(170, 255, 140)']
+              [0, 'rgb(251, 128, 114)'],
+              [0.2, 'rgb(253, 180, 98)'],
+              [0.4, 'rgb(255, 237, 111)'],
+              [1, 'rgb(139, 224, 164)']
             ]
 
           }];
@@ -379,7 +358,8 @@ iframe {
         function updateColumn() {
           setColumnPlot(columnSelector.value);
         }
-        
+
+        columnSelector.selectedIndex = 25;
         columnSelector.addEventListener('change', updateColumn, false);
 
       });});
