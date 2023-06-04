@@ -11,6 +11,8 @@
 <!-- <link rel="stylesheet" href="css/country.css"> -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
 <style>
+p { font-size: 18px}
+br { font-size: 18px}
 body, html {height: 100%}
 body,h1,h2,h3,h4,h5,h6 {font-family: "Inconsolata", sans-serif}
 .bgimg {
@@ -41,9 +43,28 @@ iframe {
   for (var i = 0; i < countries.length; i++) {
     var iframe = document.createElement("iframe");
     iframe.src = "country_pages/" + countries[i] + "Prod.html";
-    iframe.width = 600
+    iframe.width = 500
     iframe.height = 500
     country_frame_dict[countries[i]] = iframe
+  }
+
+  var countryLine_frame_dict = {};
+  for (var i = 0; i < countries.length; i++) {
+    var iframe = document.createElement("iframe");
+    iframe.src = "country_pages/" + countries[i] + "Line.html";
+    iframe.width = 450
+    iframe.height = 500
+    countryLine_frame_dict[countries[i]] = iframe
+  }
+
+  const foods = ["Chocolate", "Milk", "Apple", "Banana", "Beef", "Carrot", "Egg", "Chicken", "Fish", "Potato", "Rice", "Ice cream"]
+  var food_radar_dict = {};
+  for (var i = 0; i < foods.length; i++) {
+    var iframe = document.createElement("iframe");
+    iframe.src = "food_pages/" + foods[i] + ".html";
+    iframe.width = 450
+    iframe.height = 500
+    food_radar_dict[foods[i]] = iframe
   }
 
   function showNutrient(nutrient) {
@@ -73,12 +94,35 @@ iframe {
       pages[i].style.display = 'none';
     }
 
+    var linepages = document.getElementsByClassName('foodYearsLine');
+    for (var i = 0; i < linepages.length; i++) {
+      linepages[i].style.display = 'none';
+    }
+
     var dropdown = document.getElementById("dropdown");
     var country = dropdown.value;
     var countryContainer = document.getElementById(country);
 
     countryContainer.appendChild(country_frame_dict[country]);
     countryContainer.style.display = 'block';
+    
+    var countryLineContainer = document.getElementById(country+"Line");
+
+    countryLineContainer.appendChild(countryLine_frame_dict[country]);
+    countryLineContainer.style.display = 'block';
+  }
+
+  function showRadar(food) {
+    // hide all subsections
+    var pages = document.getElementsByClassName('foodCompRadar');
+    for (var i = 0; i < pages.length; i++) {
+      pages[i].style.display = 'none';
+    }
+    
+    // display the selected subsection
+    var selectedPage = document.getElementById(food);
+    selectedPage.appendChild(food_radar_dict[food]);
+    selectedPage.style.display = 'block';
   }
 </script>
 </head>
@@ -89,8 +133,8 @@ iframe {
   <div class="w3-bar w3-xlarge w3-black w3-opacity w3-hover-opacity-off" id="bar">
     <a href="#home" class="w3-bar-item w3-button">HOME</a>
     <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
+    <a href="#FoodComp" class="w3-bar-item w3-button">FOOD COMPONENT</a>
     <a href="#nutrients" class="w3-bar-item w3-button">NUTRIENTS</a>
-    <a href="#menu" class="w3-bar-item w3-button">DIET MENU</a>
     <a href="#world" class="w3-bar-item w3-button">WORLD FOOD</a>
   </div>
 </div>
@@ -99,7 +143,6 @@ iframe {
 <header class="bgimg w3-display-container" id="home">
   <div class="w3-display-middle w3-center">
     <span class="w3-text-white w3-hide-small" style="font-size:100px">All about<br>Food</span>
-    <span class="w3-text-white w3-hide-large w3-hide-medium" style="font-size:60px"><b>thin<br>CRUST PIZZA</b></span>
   </div>
 </header>
 
@@ -109,7 +152,139 @@ iframe {
   <div class="w3-content" style="max-width:700px">
     <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">ABOUT THIS WEBSITE</span></h5>
     <p>Diverse studies have revealed the importance of food on biological, cultural and psychological aspects. Biologically, food provides essential nutrients for development and maintenance of our bodies. Culturally, food plays a role in defining the identity of communities and cultures. Psychologically, food can have a significant impact on our moods and emotions.</p>
-    <p>In this website, we hope to visually present and compare important information such as the nutritional content of food, so that users can enjoy the interface and interact with it to have healthier eating habits and understand the diverse connections between food and human civilization.</p>
+    <p>In this website, we hope to visually present and compare important information such as the nutritional content of food, so that users can enjoy the interface and interact with it to have healthier eating habits and get to know the food diversities across the world.</p>
+  </div>
+</div>
+
+<div class="w3-container" id="FoodComp">
+  <div class="w3-content" style="max-width:1000px">
+    <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">Components in Common Food</span></h5>
+    <p>We use a radar chart to show the ratio of amount of nutrients contained in common food to the human body required amount per day.</p>
+    <p>Please click on the food icon to view the ratio of individual food.</p>
+    <div class = "w3-content">
+      <div class="w3-left">
+        <div class = "w3-center">
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Chicken')" class="w3-button w3-circle w3-sand w3-xlarge">chicken</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/chicken.jpeg" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Milk')" class="w3-button w3-circle w3-sand w3-xlarge">milk</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/milk.jpeg" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Potato')" class="w3-button w3-circle w3-sand w3-xlarge">potato</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/potato.jpeg" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <br>
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Carrot')" class="w3-button w3-circle w3-sand w3-xlarge">carrot</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/carrot.jpeg" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Egg')" class="w3-button w3-circle w3-sand w3-xlarge">egg</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/egg.jpeg" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Fish')" class="w3-button w3-circle w3-sand w3-xlarge">fish</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/fish.jpeg" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <br>
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Apple')" class="w3-button w3-circle w3-sand w3-xlarge">apple</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/apple.jpeg" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Banana')" class="w3-button w3-circle w3-sand w3-xlarge">banana</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/banana.jpeg" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Rice')" class="w3-button w3-circle w3-sand w3-xlarge">rice</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/rice.png" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <br>
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Ice cream')" class="w3-button w3-circle w3-sand w3-xlarge">ice cream</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/icecream.jpeg" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Chocolate')" class="w3-button w3-circle w3-sand w3-xlarge">chocolate</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/choco.jpeg" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <div class="w3-dropdown-hover">
+            <button onclick="showRadar('Beef')" class="w3-button w3-circle w3-sand w3-xlarge">beef</button>
+            <div class="w3-dropdown-content" style="width:300px">
+              <img src="imgs/beef.png" alt="Norway" style="width:100%">
+            </div>
+          </div>
+          <br>
+        </div>
+      </div>
+      <div class="w3-right">
+        <div id="Chicken" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="Beef" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="Egg" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="Apple" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="Milk" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="Carrot" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="Potato" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="Fish" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="Rice" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="Ice cream" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="Chocolate" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="Banana" class="foodCompRadar">
+          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+        </div>
+        <div id="all" class="foodCompRadar">
+          <iframe src="food_pages/all.html" width="450" height="500"></iframe>
+        </div>
+
+      </div>
+    </div>
   </div>
 </div>
 
@@ -275,13 +450,34 @@ iframe {
   <div class="w3-content" style="max-width:700px">
     <p>We aslo did research into worldwide food sustainability issues.</p>
     <ul>
+      <li>People's food preferences are very different across the world. Take a look at this <a href="#wordcloud">word cloud</a>!</li>
       <li>Does any location on the Earth is able to produce enough nutrients for people living there? We draw the ratio of produced amount and required amount for each nutrition in a <a href="#worldmap">world map</a></li>
       <li>Then, if we want to know what crops can we increase to make sure enough nutrients are produced, we need to know what exact food groups are providing people with the common seen nutrients? We visualize those food groups for each nutrient for different places on Earth in a <a href="#stackbar">stack bar chart</a> </li>
       <li>Additionally, we are also curious in the <a href="#piechart">trend of the above food groups production across years</a>. This time, we take a more detailed look into each country.</li>
     </ul>
   </div>
+  <div class="w3-content" style="max-width:1000px" id="wordcloud">
+    <h4 class="w3-center w3-padding-64"><span class="subtag w3-wide">Word Cloud of Food Preferences in Some Regions</span></h4>
+    <div class="w3-content w3-left" style="width:500px; height: 500px;">
+      <h2>Worldwide</h2>
+      <img src="imgs/wordcloud_world.png" alt="Norway" style="width:100%">
+    </div>
+    <div class="w3-content w3-right" style="width:500px; height: 500px;">
+      <h2>Chinese</h2>
+      <img src="imgs/wordcloud_chinese.png" alt="Norway" style="width:100%">
+    </div>
+    <br>
+    <div class="w3-content w3-left" style="width:500px; height: 500px;">
+      <h2>American</h2>
+      <img src="imgs/wordcloud_american.png" alt="Norway" style="width:100%">
+    </div>
+    <div class="w3-content w3-right" style="width:500px; height: 500px;">
+      <h2>French</h2>
+      <img src="imgs/wordcloud_french.png" alt="Norway" style="width:100%">
+    </div>
+  </div>
   <div class="w3-content" style="max-width:700px" id="worldmap">
-    <h4 class="w3-center w3-padding-64"><span class="subtag w3-wide">World Map of Nutrient Adeauacy Ratio</span></h4>
+    <h4 class="w3-center w3-padding-64"><span class="subtag w3-wide">World Map of Nutrient Adequacy Ratio</span></h4>
     <p>Nutrient Adequacy Ratio is the ratio of nutrients' production to demand. Ratio greater than 1 means the country produces enough food with certain nutrient, so that the nationals' demand for this type of nutrient can be satisfied. Otherwise, the country will have to import food, or its nationals will have to suffer from malnutrition.</p>
     <p>Below is an interactive choropleth map that shows Nutrient Adequacy Ratio of different countries of different type of nutrients, and also the general adequacy ratio. </p>
     <div id="myDiv" class="w3-center mapplot" data-num="0">
@@ -370,7 +566,7 @@ iframe {
     
   </div>
 
-  <div class="w3-content" style="max-width:1400px">
+  <div class="w3-content">
     <div class="w3-content" id="stackbar">
       <h4 class="w3-center w3-padding-64"><span class="subtag w3-wide">Worldwide Nutrients Production from Different Food</span></h4>
       <p>We use a stack bar chart to reveal the contribution of different food groups to the common nutrients production for different regions. For each stack bar, different food groups are assigned with different colors and the value (<i>please hover on the bar to view the number</i>) of each food group represents its percentage in the total production.</p>
@@ -449,31 +645,88 @@ iframe {
           <option value="Italy">Italy</option>
           <option value="SAfrica">SAfrica</option>
         </select>
-      </div>
+      </div><br>
       
-      <div class="w3-left" id="contentContainer">
-        <div id="Swiss" class="foodProdYears">
-          <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+      <div class="w3-content" style="max-width:1200px">
+        <div class="w3-content">
+          <div id="Swiss" class="foodProdYears w3-left">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
+          <div id="SwissLine" class="foodYearsLine w3-right">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
         </div>
-        <div id="China" class="foodProdYears">
-          <!-- <iframe src="global_pages/protein_contrib.html" width="600" height="500"></iframe> -->
+        <div class="w3-content">
+          <div id="China" class="foodProdYears w3-left">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
+          <div id="ChinaLine" class="foodYearsLine w3-right">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
         </div>
-        <div id="India" class="foodProdYears">
+        <div class="w3-content">
+          <div id="India" class="foodProdYears w3-left">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
+          <div id="IndiaLine" class="foodYearsLine w3-right">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
         </div>
-        <div id="Thai" class="foodProdYears">
+        <div class="w3-content">
+          <div id="Thai" class="foodProdYears w3-left">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
+          <div id="ThaiLine" class="foodYearsLine w3-right">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
         </div>
-        <div id="UK" class="foodProdYears">
+        <div class="w3-content">
+          <div id="UK" class="foodProdYears w3-left">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
+          <div id="UKLine" class="foodYearsLine w3-right">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
         </div>
-        <div id="Germany" class="foodProdYears">
+        <div class="w3-content">
+          <div id="Germany" class="foodProdYears w3-left">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
+          <div id="GermanyLine" class="foodYearsLine w3-right">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
         </div>
-        <div id="USA" class="foodProdYears">
+        <div class="w3-content">
+          <div id="USA" class="foodProdYears w3-left">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
+          <div id="USALine" class="foodYearsLine w3-right">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
         </div>
-        <div id="Italy" class="foodProdYears">
+        <div class="w3-content">
+          <div id="Italy" class="foodProdYears w3-left">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
+          <div id="ItalyLine" class="foodYearsLine w3-right">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
         </div>
-        <div id="SAfrica" class="foodProdYears">
+        <div class="w3-content">
+          <div id="SAfrica" class="foodProdYears w3-left">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
+          <div id="SAfricaLine" class="foodYearsLine w3-right">
+            <!-- <iframe src="global_pages/energy_contrib.html" width="600" height="500"></iframe> -->
+          </div>
         </div>
-        <div class="w3-left, foodProdYears">
-          <iframe src="country_pages/SwissProd.html" width="600" height="500"></iframe>
+        <div class="w3-content">
+          <div class="w3-left foodProdYears">
+            <iframe src="country_pages/SwissProd.html" width="500" height="500"></iframe>
+          </div>
+          <div class="w3-right foodProdYears">
+            <iframe src="country_pages/SwissLine.html" width="450" height="500"></iframe>
+          </div>
         </div>
       </div>
     </div>

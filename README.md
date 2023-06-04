@@ -9,9 +9,9 @@
 ### Brief Introduction
 Our project aims to utilize data visualization techniques to present and compare important information about food, including its nutritional content, healthy diet combinations, and the differences in nutrition perspective of food production in different regions.
 
-[Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
+[Milestone 1](#milestone-1-23rd-April-5pm) • [Milestone 2](#milestone-2-7th-May-5pm) • [Milestone 3](#milestone-3-4th-June-5pm)
 
-## Milestone 1 (23rd April, 5pm)
+# Milestone 1 (23rd April, 5pm)
 
 **10% of the final grade**
 
@@ -91,7 +91,7 @@ During our search, we found many great data visualizations of food and were insp
     https://flowingdata.com/2016/12/12/calories-in-fast-food-menu-items/
 
 
-## Milestone 2 (7th May, 5pm)
+# Milestone 2 (7th May, 5pm)
 
 **10% of the final grade**
 
@@ -99,7 +99,13 @@ Skeleton of website https://com-480-data-visualization.github.io/project-2023-th
 Report https://github.com/com-480-data-visualization/project-2023-the-travelers/blob/master/Milestone%202.pdf
 
 
-## Milestone 3 (4th June, 5pm)
+# Milestone 3 (4th June, 5pm)
+- the final website: https://com-480-data-visualization.github.io/project-2023-the-travelers/website/index.html
+
+- the process book: https://github.com/com-480-data-visualization/project-2023-the-travelers/blob/master/datavisualization.pdf
+
+
+- the video: https://drive.google.com/file/d/1WM3RlfZIuNRIy8QU9NSyY5mHed9lSn2G/view?usp=sharing
 
 **80% of the final grade**
 
