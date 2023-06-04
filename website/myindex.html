@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <head>
 <title>Food Travelers Data Visualization</title>
 <meta charset="UTF-8">
@@ -24,7 +23,6 @@ iframe {
 }
 </style>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="https://cdn.plot.ly/plotly-2.20.0.min.js" charset="utf-8"></script>
 <script>
   const nutrients = ["Energy", "Protein", "Iron", "Calcium", "Vitamin B12", "Folate", "Vitamin E", "Choline"];
   var frame_dict = {};
@@ -32,7 +30,7 @@ iframe {
     var iframe = document.createElement("iframe");
     iframe.src = "global_pages/" + nutrients[i] + "_contrib.html";
     iframe.width = 800
-    iframe.height = 500
+    iframe.height = 600
     frame_dict[nutrients[i]] = iframe
   }
 
@@ -107,7 +105,7 @@ iframe {
 <!-- About Container -->
 <div class="w3-container" id="about">
   <div class="w3-content" style="max-width:700px">
-    <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">ABOUT THIS WEBSITE</span></h5>
+    <h2 class="w3-center w3-padding-64"><span class="tag w3-wide">ABOUT THIS WEBSITE</span></h2>
     <p>Diverse studies have revealed the importance of food on biological, cultural and psychological aspects. Biologically, food provides essential nutrients for development and maintenance of our bodies. Culturally, food plays a role in defining the identity of communities and cultures. Psychologically, food can have a significant impact on our moods and emotions.</p>
     <p>In this website, we hope to visually present and compare important information such as the nutritional content of food, so that users can enjoy the interface and interact with it to have healthier eating habits and understand the diverse connections between food and human civilization.</p>
   </div>
@@ -116,7 +114,7 @@ iframe {
 <!-- Ingredients Container -->
 <div class="w3-container" id="nutrients">
   <div class="w3-content" style="max-width:700px">
-    <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">Nutrient ingredients in different food</span></h5>
+    <h2 class="w3-center w3-padding-64"><span class="tag w3-wide">Nutrient ingredients in different food</span></h2>
     <p style="font-size: 16px">Visualization of food ingredients.</p>
     <svg viewBox="0 0 100 70" preserveAspectRatio="xMidYMid meet" width="100%" height="auto">
       <!--polygon points="0,0 0,70 100,70 100,0" fill="none" stroke="black"/-->
@@ -220,13 +218,13 @@ iframe {
 <div class="w3-container" id="menu">
   <div class="w3-content" style="max-width:700px">
     <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">Different diet menus</span></h5>
-    <!-- <div class="w3-center">
+    <div class="w3-center">
       <h3>Vegan Diet Recipe:</h3>
       <img src="imgs/menu.jpg" width="800px" height=auto>
-    </div> -->
+    </div>
 
     <!-- pagination elements -->
-    <!-- <div class="w3-center">
+    <div class="w3-center">
       <div class="pagination">
         <a href="#"><<</a>
         <a href="#" title="Loose weight">1</a>
@@ -236,109 +234,18 @@ iframe {
         <a href="#" title="Gluten Free">5</a>
         <a href="#">>></a>
       </div>
-    </div> -->
+    </div>
   </div>
 </div>
 
 <!-- Country Container -->
+
+
 <div class="w3-container" id="world">
-  <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">WORLDWIDE FOOD PRODUCTION</span></h5>
-  <div class="w3-content" style="max-width:700px">
-    <p>We aslo did research into worldwide food sustainability issues.</p>
-    <ul>
-      <li>Does any location on the Earth is able to produce enough nutrients for people living there? We draw the ratio of produced amount and required amount for each nutrition in a <a href="#worldmap">world map</a></li>
-      <li>Then, if we want to know what crops can we increase to make sure enough nutrients are produced, we need to know what exact food groups are providing people with the common seen nutrients? We visualize those food groups for each nutrient for different places on Earth in a <a href="#stackbar">stack bar chart</a> </li>
-      <li>Additionally, we are also curious in the <a href="#piechart">trend of the above food groups production across years</a>. This time, we take a more detailed look into each country.</li>
-    </ul>
-  </div>
-  <div class="w3-content" style="max-width:700px" id="worldmap">
-    <h4 class="w3-center w3-padding-64"><span class="subtag w3-wide">World Map of Nutrient Adeauacy Ratio</span></h4>
-    <p>Visualization of Nutrition Adequacy Ratio of Countries</p>
-    <div id="myDiv" class="w3-center mapplot" data-num="0">
-      <div class="plot" id="plotdiv"></div>
-      <div class="control-row">
-        Nutrition: <select class="columndata"></select>
-      </div>
-    </div>
-    <script>
-      d3.json('https://raw.githubusercontent.com/com-480-data-visualization/project-2023-the-travelers/master/website/json/world.geojson').then(function(mapjson){
-      d3.csv('https://raw.githubusercontent.com/com-480-data-visualization/project-2023-the-travelers/master/Data/Global.csv').then(function(rows){
-
-        function unpack(rows, key) {
-          return rows.map(function(row) { return row[key]; });
-        }
-
-        var allColumns = ['Energy', 'Protein', 'Zinc', 'Iron', 'Calcium', 'Selenium', 'Magnesium', 'Vitamin C', 'Thiamine', 'Riboflavin', 'Niacin', 'Vitamin B6', 'Pathothenate', 'Vitamin B12', 'Folate', 'Vitamin A', 'Vitamin E', 'Vitamin K', 'Polyunsaturate fatty acids', 'Phosphorus', 'Manganese', 'Copper', 'Choline', 'Potassium', 'Fibre', 'Food Production Adequacy indic ator'],
-        listofColumns = [],
-        currentColumn;
-
-        for (var i = 0; i < allColumns.length; i++) {
-          if (listofColumns.indexOf(allColumns[i]) === -1) {
-            listofColumns.push(allColumns[i]);
-          }
-        }
-
-        setColumnPlot('Food Production Adequacy indic ator');
-
-        function setColumnPlot(chosenColumn) {
-
-          var data = [{
-            type: 'choropleth',
-            locations: unpack(rows, 'Country Code'),
-            locationmode: 'geojson-property',
-            z: unpack(rows, chosenColumn),
-            text: unpack(rows, 'Country'),
-            geojson: mapjson,
-            featureidkey: 'properties.SOC',
-            zmin: 0,
-            zmax: 1,
-            colorscale: [
-              [0, 'rgb(255, 0, 0)'],
-              [1, 'rgb(170, 255, 140)']
-            ]
-
-          }];
-
-          var layout = {
-            title: chosenColumn,
-            geo: {
-              projection: {
-                type: 'robinson'
-              }
-            },
-          };
-
-          Plotly.newPlot("plotdiv", data, layout, {showLink: false});
-        };
-
-        var innerContainer = document.querySelector('[data-num="0"');
-        var plotEl = innerContainer.querySelector('.plot');
-        var columnSelector = innerContainer.querySelector('.columndata');
-
-        function assignOptions(textArray, selector) {
-          for (var i = 0; i < textArray.length; i++) {
-            var currentOption = document.createElement('option');
-            currentOption.text = textArray[i];
-            selector.appendChild(currentOption);
-          }
-        }
-
-        assignOptions(listofColumns, columnSelector);
-
-        function updateColumn() {
-          setColumnPlot(columnSelector.value);
-        }
-        
-        columnSelector.addEventListener('change', updateColumn, false);
-
-      });});
-
-    </script>
-    
-  </div>
-
   <div class="w3-content" style="max-width:1400px">
-    <div class="w3-content" id="stackbar">
+    <h2 class="w3-center w3-padding-64"><span class="tag w3-wide">WORLDWIDE FOOD PRODUCTION</span></h2>
+    <p>Visualization of Country Production</p>
+    <div class="w3-content">
       <h4 class="w3-center w3-padding-64"><span class="subtag w3-wide">Worldwide Nutrients Production from Different Food</span></h4>
       <p>We use a stack bar chart to reveal the contribution of different food groups to the common nutrients production for different regions. For each stack bar, different food groups are assigned with different colors and the value (<i>please hover on the bar to view the number</i>) of each food group represents its percentage in the total production.</p>
       <p>By stacking all the food groups up, it can be seen directly what does the distribution of food groups of each region look like. And by putting all the regions together in one chart, it is easy for us to compare the different distribution of the food groups of each region.</p>
@@ -400,7 +307,7 @@ iframe {
       
     </div>
 
-    <div class="w3-content" id="piechart">
+    <div class="w3-content">
       <h4 class="w3-center w3-padding-64"><span class="subtag w3-wide">Worldwide Different Food Production across Years</span></h4>
       <p>We apply a pie chart along a time axis to visualiza how the percentage of different food in the total food production change from Year 1961 and Year 2013.</p>
       <p>(Please feel free to drag along the time axis to view the changes along time and select different countries from the drop down menu :D )</p>
@@ -446,12 +353,11 @@ iframe {
     </div>
   </div>
 
+  
 </div>
 
 <script>
   showNutrient('Energy');
 </script>
-
-
 </body>
 </html>
