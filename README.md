@@ -102,7 +102,8 @@ Report https://github.com/com-480-data-visualization/project-2023-the-travelers/
 # Milestone 3 (4th June, 5pm)
 - the final website: https://com-480-data-visualization.github.io/project-2023-the-travelers/website/index.html
 
-- the process book:
+- the process book: https://github.com/com-480-data-visualization/project-2023-the-travelers/blob/master/datavisualization.pdf
+
 
 - the video: https://drive.google.com/file/d/1WM3RlfZIuNRIy8QU9NSyY5mHed9lSn2G/view?usp=sharing
 
