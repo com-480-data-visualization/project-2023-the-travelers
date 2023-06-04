@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <head>
 <title>Food Travelers Data Visualization</title>
 <meta charset="UTF-8">
@@ -24,7 +23,6 @@ iframe {
 }
 </style>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="https://cdn.plot.ly/plotly-2.20.0.min.js" charset="utf-8"></script>
 <script>
   const nutrients = ["Energy", "Protein", "Iron", "Calcium", "Vitamin B12", "Folate", "Vitamin E", "Choline"];
   var frame_dict = {};
@@ -32,7 +30,7 @@ iframe {
     var iframe = document.createElement("iframe");
     iframe.src = "global_pages/" + nutrients[i] + "_contrib.html";
     iframe.width = 800
-    iframe.height = 500
+    iframe.height = 600
     frame_dict[nutrients[i]] = iframe
   }
 
@@ -107,7 +105,7 @@ iframe {
 <!-- About Container -->
 <div class="w3-container" id="about">
   <div class="w3-content" style="max-width:700px">
-    <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">ABOUT THIS WEBSITE</span></h5>
+    <h2 class="w3-center w3-padding-64"><span class="tag w3-wide">ABOUT THIS WEBSITE</span></h2>
     <p>Diverse studies have revealed the importance of food on biological, cultural and psychological aspects. Biologically, food provides essential nutrients for development and maintenance of our bodies. Culturally, food plays a role in defining the identity of communities and cultures. Psychologically, food can have a significant impact on our moods and emotions.</p>
     <p>In this website, we hope to visually present and compare important information such as the nutritional content of food, so that users can enjoy the interface and interact with it to have healthier eating habits and understand the diverse connections between food and human civilization.</p>
   </div>
@@ -115,154 +113,103 @@ iframe {
 
 <!-- Ingredients Container -->
 <div class="w3-container" id="nutrients">
-  <div class="w3-content" style="max-width:700px" plot-num="0">
-    <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">Nutrient ingredients in different food</span></h5>
+  <div class="w3-content" style="max-width:700px">
+    <h2 class="w3-center w3-padding-64"><span class="tag w3-wide">Nutrient ingredients in different food</span></h2>
     <p style="font-size: 16px">Visualization of food ingredients.</p>
     <svg viewBox="0 0 100 70" preserveAspectRatio="xMidYMid meet" width="100%" height="auto">
       <!--polygon points="0,0 0,70 100,70 100,0" fill="none" stroke="black"/-->
       <!--polygon points="0,0 0,14 100,14 100,0" fill="none" stroke="red"/-->
       <text x="2" y="7" font-size="7" fill="black" text-anchor="start" dominant-baseline="central">Food Group Macros</text>
-      <text x="73.6" y="13.5" font-size="1.8" fill="black" text-anchor="end" text-id="2">protein</text>
-      <text x="88.4" y="13.5" font-size="1.8" fill="black" text-anchor="start" text-id="3">fat</text>
-      <text x="81" y="1.4" font-size="1.8" fill="black" text-anchor="middle" text-id="1">carb</text>
+      <text x="73.6" y="13.5" font-size="1.8" fill="black" text-anchor="end">Protein</text>
+      <text x="88.4" y="13.5" font-size="1.8" fill="black" text-anchor="start">Fat</text>
+      <text x="81" y="1.4" font-size="1.8" fill="black" text-anchor="middle">Carb</text>
       <polygon points="81,1.6 88,13.6 74,13.6" fill="none" stroke="black" stroke-width="1" vector-effect="non-scaling-stroke" dominant-baseline="text-bottom"/>
     </svg>
-    <div class="control-row">
-      Nutrition 1: <select class="columndata" columndata-id="1"></select> Nutrition 2: <select class="columndata" columndata-id="2"></select> Nutrition 3: <select class="columndata" columndata-id="3"></select>
-    </div>
     <script>
-      d3.csv('https://raw.githubusercontent.com/com-480-data-visualization/project-2023-the-travelers/master/Notebook/sampled_nutrients.csv').then(function(rows){
-        var dataLength = rows.length;
-        function unpack(rows, key) {
-          return rows.map(function(row) { return row[key]; });
-        }
-        let svg = d3.select("svg");
-        const f = function(i) {
-          const r = 10
-          const htext = 14
-          return (i%4*25+12.5)+","+(Math.floor(i/4)*25+htext+12.5-r)+" "+(i%4*25+12.5-r/2*Math.sqrt(3))+","+(Math.floor(i/4)*25+htext+12.5+r/2)+" "+(i%4*25+12.5+r/2*Math.sqrt(3))+","+(Math.floor(i/4)*25+htext+12.5+r/2)
-        }
-        const getcx = function(d, i) {
-          const r = 10;
-          const htext = 14;
-          let x1 = i % 4 * 25 + 12.5;
-          let x2 = i % 4 * 25 + 12.5 - r / 2 * Math.sqrt(3);
-          let x3 = i % 4 * 25 + 12.5 + r / 2 * Math.sqrt(3);
-          return d[0] * x1 + d[1] * x2 + d[2] * x3;
-        }
-        const getcy = function(d, i) {
-          const r = 10;
-          const htext = 14;
-          let x1 = Math.floor(i/4)*25+htext+12.5-r;
-          let x2 = Math.floor(i/4)*25+htext+12.5+r/2;
-          let x3 = Math.floor(i/4)*25+htext+12.5+r/2;
-          return d[0] * x1 + d[1] * x2 + d[2] * x3;
-        }
-        const gettextx = function(i) {
-          const r = 10;
-          const htext = 14;
-          return i % 4 * 25 + 12.5;
-        }
-        const gettexty = function(i) {
-          const r = 10;
-          const htext = 14;
-          return Math.floor(i/4)*25+htext+12.5+r/2 + 1;
-        }
-        svg.selectAll('nothing')
-          .data([1,1,1,1,1,1,1,1])
-          .enter()
-          .append('polygon')
-            .attr('points', (d, i) => f(i))
-            .style('fill', 'none')
-            .attr('stroke', 'black')
-            .attr('stroke-width', 1)
-            .attr('vector-effect', 'non-scaling-stroke');
-        svg.selectAll('nothing')
-          .data(['Snacks and Desserts', 'Baked Goods and Supplies', 'Beverages', 'Fruits, Vegetables, and Legumes', 'Dairy and Alternatives', 'Fast Foods', 'Meat and Seafood', 'Sauces and Condiments'])
-          .enter()
-          .append('text')
-            .attr('x', (d, i) => gettextx(i))
-            .attr('y', (d, i) => gettexty(i))
-            .attr('font-size', 1.8)
-            .attr('fill', 'black')
-            .attr('text-anchor', 'middle')
-            .attr('dominant-baseline', 'hanging')
-            .text((d, i) => d);
-        function drawTernary(nutritions) {
-          svg.selectAll('circle').remove();
-          let random = d3.randomUniform(0, 1);
-          let randdata = [];
-          for (let i = 0; i < 20000; i++) {
-            let u = random();
-            let v = random() * (1 - u);
-            let w = (1 - u - v);
-            randdata.push([u, v, w]);
-          }
-          let realdata = [];
-          for (let i = 0; i < dataLength; i++) {
-            var u = +rows[i][nutritions[0]];
-            var v = +rows[i][nutritions[1]];
-            var w = +rows[i][nutritions[2]];
-            var x = +rows[i]['cate_id'];
-            console.log(x);
-            var tot = u + v + w;
-            u /= tot;
-            v /= tot;
-            w /= tot;
-            realdata.push([[u, v, w], x]);
-          }
-          svg.selectAll('nothing')
-            .data(realdata)
-            .enter()
-            .append('circle')
-              .attr('cx', (d) => getcx(d[0], d[1]))
-              .attr('cy', (d) => getcy(d[0], d[1]))
-              .attr('r', 0.5)
-              .style('fill', 'none')
-              .attr('stroke', 'black')
-              .attr('stroke-width', 0.3)
-              .attr('vector-effect', 'non-scaling-stroke')
-        }
-
-        var innerContainer = document.querySelector('[plot-num="0"');
-        var columnSelector1 = innerContainer.querySelector('[columndata-id="1"]');
-        var columnSelector2 = innerContainer.querySelector('[columndata-id="2"]');
-        var columnSelector3 = innerContainer.querySelector('[columndata-id="3"]');
-        var textElement1 = innerContainer.querySelector('[text-id="1"]');
-        var textElement2 = innerContainer.querySelector('[text-id="2"]');
-        var textElement3 = innerContainer.querySelector('[text-id="3"]');
-
-        function assignOptions(textArray, selector) {
-          for (var i = 0; i < textArray.length; i++) {
-            var currentOption = document.createElement('option');
-            currentOption.text = textArray[i];
-            selector.appendChild(currentOption);
-          }
-        }
-
-        var listof1Columns = ['carb', 'protein', 'fat', 'energy', 'sugar', 'fiber', 'Na', 'Ca', 'Fe'];
-
-        assignOptions(listof1Columns, columnSelector1);
-        assignOptions(listof1Columns, columnSelector2);
-        assignOptions(listof1Columns, columnSelector3);
-        columnSelector1.selectedIndex = 1;
-        columnSelector2.selectedIndex = 2;
-        columnSelector3.selectedIndex = 0;
-        updateColumn();
-
-        function updateColumn() {
-          textElement1.textContent = columnSelector1.value;
-          textElement2.textContent = columnSelector2.value;
-          textElement3.textContent = columnSelector3.value;
-          drawTernary([columnSelector1.value, columnSelector2.value, columnSelector3.value]);
-        }
-        
-        columnSelector1.addEventListener('change', updateColumn, false);
-        columnSelector2.addEventListener('change', updateColumn, false);
-        columnSelector3.addEventListener('change', updateColumn, false);
-      });
-
+      let svg = d3.select("svg");
+      const f = function(i) {
+        const r = 10
+        const htext = 14
+        return (i%4*25+12.5)+","+(Math.floor(i/4)*25+htext+12.5-r)+" "+(i%4*25+12.5-r/2*Math.sqrt(3))+","+(Math.floor(i/4)*25+htext+12.5+r/2)+" "+(i%4*25+12.5+r/2*Math.sqrt(3))+","+(Math.floor(i/4)*25+htext+12.5+r/2)
+      }
+      const getcx = function(d, i) {
+        const r = 10;
+        const htext = 14;
+        let x1 = i % 4 * 25 + 12.5;
+        let x2 = i % 4 * 25 + 12.5 - r / 2 * Math.sqrt(3);
+        let x3 = i % 4 * 25 + 12.5 + r / 2 * Math.sqrt(3);
+        return d[0] * x1 + d[1] * x2 + d[2] * x3;
+      }
+      const getcy = function(d, i) {
+        const r = 10;
+        const htext = 14;
+        let x1 = Math.floor(i/4)*25+htext+12.5-r;
+        let x2 = Math.floor(i/4)*25+htext+12.5+r/2;
+        let x3 = Math.floor(i/4)*25+htext+12.5+r/2;
+        return d[0] * x1 + d[1] * x2 + d[2] * x3;
+      }
+      const gettextx = function(i) {
+        const r = 10;
+        const htext = 14;
+        return i % 4 * 25 + 12.5;
+      }
+      const gettexty = function(i) {
+        const r = 10;
+        const htext = 14;
+        return Math.floor(i/4)*25+htext+12.5+r/2 + 1;
+      }
+      svg.selectAll('nothing')
+         .data([1,1,1,1,1,1,1,1])
+         .enter()
+         .append('polygon')
+           .attr('points', (d, i) => f(i))
+           .style('fill', 'none')
+           .attr('stroke', 'black')
+           .attr('stroke-width', 1)
+           .attr('vector-effect', 'non-scaling-stroke');
+      svg.selectAll('nothing')
+         .data(['Beverages', 'Sweets', 'Baked Goods', 'Fruits and Juices', 'Legumes', 'Baby Foods', 'Fast Foods', 'Soups, Sauces, and Gravies'])
+         .enter()
+         .append('text')
+           .attr('x', (d, i) => gettextx(i))
+           .attr('y', (d, i) => gettexty(i))
+           .attr('font-size', 1.8)
+           .attr('fill', 'black')
+           .attr('text-anchor', 'middle')
+           .attr('dominant-baseline', 'hanging')
+           .text((d, i) => d);
+      let random = d3.randomUniform(0, 1);
+      let randdata = [];
+      for (let i = 0; i < 500; i++) {
+        let u = random();
+        let v = random() * (1 - u);
+        let w = (1 - u - v);
+        randdata.push([u, v, w]);
+      }
+      svg.selectAll('nothing')
+         .data(randdata)
+         .enter()
+         .append('circle')
+           .attr('cx', (d, i) => getcx(d, Math.floor(random() * 8)))
+           .attr('cy', (d, i) => getcy(d, Math.floor(random() * 8)))
+           .attr('r', 0.5)
+           .style('fill', 'none')
+           .attr('stroke', 'black')
+           .attr('stroke-width', 0.8)
+           .attr('vector-effect', 'non-scaling-stroke')
     </script>
+    <!--script>
+      let svg = d3.select("svg");
+      let circles2 = svg.selectAll("circle")
+                        .data([10, 20, 50, 100])
+                        .enter()
+                        .append('circle')
+                          .attr('cx', (d, i) => 100 * (i + 1))
+                          .attr('cy', (d, i) => 100 * (i + 1))
+                          .attr('r', d => d)
+                          .style("fill", "blue");
+    </script-->
+    
     <p></p>
   </div>
 </div>
@@ -271,13 +218,13 @@ iframe {
 <div class="w3-container" id="menu">
   <div class="w3-content" style="max-width:700px">
     <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">Different diet menus</span></h5>
-    <!-- <div class="w3-center">
+    <div class="w3-center">
       <h3>Vegan Diet Recipe:</h3>
       <img src="imgs/menu.jpg" width="800px" height=auto>
-    </div> -->
+    </div>
 
     <!-- pagination elements -->
-    <!-- <div class="w3-center">
+    <div class="w3-center">
       <div class="pagination">
         <a href="#"><<</a>
         <a href="#" title="Loose weight">1</a>
@@ -287,109 +234,18 @@ iframe {
         <a href="#" title="Gluten Free">5</a>
         <a href="#">>></a>
       </div>
-    </div> -->
+    </div>
   </div>
 </div>
 
 <!-- Country Container -->
+
+
 <div class="w3-container" id="world">
-  <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">WORLDWIDE FOOD PRODUCTION</span></h5>
-  <div class="w3-content" style="max-width:700px">
-    <p>We aslo did research into worldwide food sustainability issues.</p>
-    <ul>
-      <li>Does any location on the Earth is able to produce enough nutrients for people living there? We draw the ratio of produced amount and required amount for each nutrition in a <a href="#worldmap">world map</a></li>
-      <li>Then, if we want to know what crops can we increase to make sure enough nutrients are produced, we need to know what exact food groups are providing people with the common seen nutrients? We visualize those food groups for each nutrient for different places on Earth in a <a href="#stackbar">stack bar chart</a> </li>
-      <li>Additionally, we are also curious in the <a href="#piechart">trend of the above food groups production across years</a>. This time, we take a more detailed look into each country.</li>
-    </ul>
-  </div>
-  <div class="w3-content" style="max-width:700px" id="worldmap">
-    <h4 class="w3-center w3-padding-64"><span class="subtag w3-wide">World Map of Nutrient Adeauacy Ratio</span></h4>
-    <p>Visualization of Nutrition Adequacy Ratio of Countries</p>
-    <div id="myDiv" class="w3-center mapplot" data-num="0">
-      <div class="plot" id="plotdiv"></div>
-      <div class="control-row">
-        Nutrition: <select class="columndata"></select>
-      </div>
-    </div>
-    <script>
-      d3.json('https://raw.githubusercontent.com/com-480-data-visualization/project-2023-the-travelers/master/website/json/world.geojson').then(function(mapjson){
-      d3.csv('https://raw.githubusercontent.com/com-480-data-visualization/project-2023-the-travelers/master/Data/Global.csv').then(function(rows){
-
-        function unpack(rows, key) {
-          return rows.map(function(row) { return row[key]; });
-        }
-
-        var allColumns = ['Energy', 'Protein', 'Zinc', 'Iron', 'Calcium', 'Selenium', 'Magnesium', 'Vitamin C', 'Thiamine', 'Riboflavin', 'Niacin', 'Vitamin B6', 'Pathothenate', 'Vitamin B12', 'Folate', 'Vitamin A', 'Vitamin E', 'Vitamin K', 'Polyunsaturate fatty acids', 'Phosphorus', 'Manganese', 'Copper', 'Choline', 'Potassium', 'Fibre', 'Food Production Adequacy indic ator'],
-        listofColumns = [],
-        currentColumn;
-
-        for (var i = 0; i < allColumns.length; i++) {
-          if (listofColumns.indexOf(allColumns[i]) === -1) {
-            listofColumns.push(allColumns[i]);
-          }
-        }
-
-        setColumnPlot('Food Production Adequacy indic ator');
-
-        function setColumnPlot(chosenColumn) {
-
-          var data = [{
-            type: 'choropleth',
-            locations: unpack(rows, 'Country Code'),
-            locationmode: 'geojson-property',
-            z: unpack(rows, chosenColumn),
-            text: unpack(rows, 'Country'),
-            geojson: mapjson,
-            featureidkey: 'properties.SOC',
-            zmin: 0,
-            zmax: 1,
-            colorscale: [
-              [0, 'rgb(255, 0, 0)'],
-              [1, 'rgb(170, 255, 140)']
-            ]
-
-          }];
-
-          var layout = {
-            title: chosenColumn,
-            geo: {
-              projection: {
-                type: 'robinson'
-              }
-            },
-          };
-
-          Plotly.newPlot("plotdiv", data, layout, {showLink: false});
-        };
-
-        var innerContainer = document.querySelector('[data-num="0"');
-        var plotEl = innerContainer.querySelector('.plot');
-        var columnSelector = innerContainer.querySelector('.columndata');
-
-        function assignOptions(textArray, selector) {
-          for (var i = 0; i < textArray.length; i++) {
-            var currentOption = document.createElement('option');
-            currentOption.text = textArray[i];
-            selector.appendChild(currentOption);
-          }
-        }
-
-        assignOptions(listofColumns, columnSelector);
-
-        function updateColumn() {
-          setColumnPlot(columnSelector.value);
-        }
-        
-        columnSelector.addEventListener('change', updateColumn, false);
-
-      });});
-
-    </script>
-    
-  </div>
-
   <div class="w3-content" style="max-width:1400px">
-    <div class="w3-content" id="stackbar">
+    <h2 class="w3-center w3-padding-64"><span class="tag w3-wide">WORLDWIDE FOOD PRODUCTION</span></h2>
+    <p>Visualization of Country Production</p>
+    <div class="w3-content">
       <h4 class="w3-center w3-padding-64"><span class="subtag w3-wide">Worldwide Nutrients Production from Different Food</span></h4>
       <p>We use a stack bar chart to reveal the contribution of different food groups to the common nutrients production for different regions. For each stack bar, different food groups are assigned with different colors and the value (<i>please hover on the bar to view the number</i>) of each food group represents its percentage in the total production.</p>
       <p>By stacking all the food groups up, it can be seen directly what does the distribution of food groups of each region look like. And by putting all the regions together in one chart, it is easy for us to compare the different distribution of the food groups of each region.</p>
@@ -451,7 +307,7 @@ iframe {
       
     </div>
 
-    <div class="w3-content" id="piechart">
+    <div class="w3-content">
       <h4 class="w3-center w3-padding-64"><span class="subtag w3-wide">Worldwide Different Food Production across Years</span></h4>
       <p>We apply a pie chart along a time axis to visualiza how the percentage of different food in the total food production change from Year 1961 and Year 2013.</p>
       <p>(Please feel free to drag along the time axis to view the changes along time and select different countries from the drop down menu :D )</p>
@@ -497,12 +353,11 @@ iframe {
     </div>
   </div>
 
+  
 </div>
 
 <script>
   showNutrient('Energy');
 </script>
-
-
 </body>
 </html>
