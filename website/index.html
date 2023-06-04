@@ -115,103 +115,154 @@ iframe {
 
 <!-- Ingredients Container -->
 <div class="w3-container" id="nutrients">
-  <div class="w3-content" style="max-width:700px">
+  <div class="w3-content" style="max-width:700px" plot-num="0">
     <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">Nutrient ingredients in different food</span></h5>
     <p style="font-size: 16px">Visualization of food ingredients.</p>
     <svg viewBox="0 0 100 70" preserveAspectRatio="xMidYMid meet" width="100%" height="auto">
       <!--polygon points="0,0 0,70 100,70 100,0" fill="none" stroke="black"/-->
       <!--polygon points="0,0 0,14 100,14 100,0" fill="none" stroke="red"/-->
       <text x="2" y="7" font-size="7" fill="black" text-anchor="start" dominant-baseline="central">Food Group Macros</text>
-      <text x="73.6" y="13.5" font-size="1.8" fill="black" text-anchor="end">Protein</text>
-      <text x="88.4" y="13.5" font-size="1.8" fill="black" text-anchor="start">Fat</text>
-      <text x="81" y="1.4" font-size="1.8" fill="black" text-anchor="middle">Carb</text>
+      <text x="73.6" y="13.5" font-size="1.8" fill="black" text-anchor="end" text-id="1">protein</text>
+      <text x="88.4" y="13.5" font-size="1.8" fill="black" text-anchor="start" text-id="2">fat</text>
+      <text x="81" y="1.4" font-size="1.8" fill="black" text-anchor="middle" text-id="3">carb</text>
       <polygon points="81,1.6 88,13.6 74,13.6" fill="none" stroke="black" stroke-width="1" vector-effect="non-scaling-stroke" dominant-baseline="text-bottom"/>
     </svg>
+    <div class="control-row">
+      Nutrition 1: <select class="columndata" columndata-id="1"></select> Nutrition 2: <select class="columndata" columndata-id="2"></select> Nutrition 3: <select class="columndata" columndata-id="3"></select>
+    </div>
     <script>
-      let svg = d3.select("svg");
-      const f = function(i) {
-        const r = 10
-        const htext = 14
-        return (i%4*25+12.5)+","+(Math.floor(i/4)*25+htext+12.5-r)+" "+(i%4*25+12.5-r/2*Math.sqrt(3))+","+(Math.floor(i/4)*25+htext+12.5+r/2)+" "+(i%4*25+12.5+r/2*Math.sqrt(3))+","+(Math.floor(i/4)*25+htext+12.5+r/2)
-      }
-      const getcx = function(d, i) {
-        const r = 10;
-        const htext = 14;
-        let x1 = i % 4 * 25 + 12.5;
-        let x2 = i % 4 * 25 + 12.5 - r / 2 * Math.sqrt(3);
-        let x3 = i % 4 * 25 + 12.5 + r / 2 * Math.sqrt(3);
-        return d[0] * x1 + d[1] * x2 + d[2] * x3;
-      }
-      const getcy = function(d, i) {
-        const r = 10;
-        const htext = 14;
-        let x1 = Math.floor(i/4)*25+htext+12.5-r;
-        let x2 = Math.floor(i/4)*25+htext+12.5+r/2;
-        let x3 = Math.floor(i/4)*25+htext+12.5+r/2;
-        return d[0] * x1 + d[1] * x2 + d[2] * x3;
-      }
-      const gettextx = function(i) {
-        const r = 10;
-        const htext = 14;
-        return i % 4 * 25 + 12.5;
-      }
-      const gettexty = function(i) {
-        const r = 10;
-        const htext = 14;
-        return Math.floor(i/4)*25+htext+12.5+r/2 + 1;
-      }
-      svg.selectAll('nothing')
-         .data([1,1,1,1,1,1,1,1])
-         .enter()
-         .append('polygon')
-           .attr('points', (d, i) => f(i))
-           .style('fill', 'none')
-           .attr('stroke', 'black')
-           .attr('stroke-width', 1)
-           .attr('vector-effect', 'non-scaling-stroke');
-      svg.selectAll('nothing')
-         .data(['Beverages', 'Sweets', 'Baked Goods', 'Fruits and Juices', 'Legumes', 'Baby Foods', 'Fast Foods', 'Soups, Sauces, and Gravies'])
-         .enter()
-         .append('text')
-           .attr('x', (d, i) => gettextx(i))
-           .attr('y', (d, i) => gettexty(i))
-           .attr('font-size', 1.8)
-           .attr('fill', 'black')
-           .attr('text-anchor', 'middle')
-           .attr('dominant-baseline', 'hanging')
-           .text((d, i) => d);
-      let random = d3.randomUniform(0, 1);
-      let randdata = [];
-      for (let i = 0; i < 500; i++) {
-        let u = random();
-        let v = random() * (1 - u);
-        let w = (1 - u - v);
-        randdata.push([u, v, w]);
-      }
-      svg.selectAll('nothing')
-         .data(randdata)
-         .enter()
-         .append('circle')
-           .attr('cx', (d, i) => getcx(d, Math.floor(random() * 8)))
-           .attr('cy', (d, i) => getcy(d, Math.floor(random() * 8)))
-           .attr('r', 0.5)
-           .style('fill', 'none')
-           .attr('stroke', 'black')
-           .attr('stroke-width', 0.8)
-           .attr('vector-effect', 'non-scaling-stroke')
+      d3.csv('https://raw.githubusercontent.com/com-480-data-visualization/project-2023-the-travelers/master/Notebook/sampled_nutrients.csv').then(function(rows){
+        var dataLength = rows.length;
+        function unpack(rows, key) {
+          return rows.map(function(row) { return row[key]; });
+        }
+        let svg = d3.select("svg");
+        const f = function(i) {
+          const r = 10
+          const htext = 14
+          return (i%4*25+12.5)+","+(Math.floor(i/4)*25+htext+12.5-r)+" "+(i%4*25+12.5-r/2*Math.sqrt(3))+","+(Math.floor(i/4)*25+htext+12.5+r/2)+" "+(i%4*25+12.5+r/2*Math.sqrt(3))+","+(Math.floor(i/4)*25+htext+12.5+r/2)
+        }
+        const getcx = function(d, i) {
+          const r = 10;
+          const htext = 14;
+          let x1 = i % 4 * 25 + 12.5;
+          let x2 = i % 4 * 25 + 12.5 - r / 2 * Math.sqrt(3);
+          let x3 = i % 4 * 25 + 12.5 + r / 2 * Math.sqrt(3);
+          return d[0] * x1 + d[1] * x2 + d[2] * x3;
+        }
+        const getcy = function(d, i) {
+          const r = 10;
+          const htext = 14;
+          let x1 = Math.floor(i/4)*25+htext+12.5-r;
+          let x2 = Math.floor(i/4)*25+htext+12.5+r/2;
+          let x3 = Math.floor(i/4)*25+htext+12.5+r/2;
+          return d[0] * x1 + d[1] * x2 + d[2] * x3;
+        }
+        const gettextx = function(i) {
+          const r = 10;
+          const htext = 14;
+          return i % 4 * 25 + 12.5;
+        }
+        const gettexty = function(i) {
+          const r = 10;
+          const htext = 14;
+          return Math.floor(i/4)*25+htext+12.5+r/2 + 1;
+        }
+        svg.selectAll('nothing')
+          .data([1,1,1,1,1,1,1,1])
+          .enter()
+          .append('polygon')
+            .attr('points', (d, i) => f(i))
+            .style('fill', 'none')
+            .attr('stroke', 'black')
+            .attr('stroke-width', 1)
+            .attr('vector-effect', 'non-scaling-stroke');
+        svg.selectAll('nothing')
+          .data(['Snacks and Desserts', 'Baked Goods and Supplies', 'Beverages', 'Fruits, Vegetables, and Legumes', 'Dairy and Alternatives', 'Fast Foods', 'Meat and Seafood', 'Sauces and Condiments'])
+          .enter()
+          .append('text')
+            .attr('x', (d, i) => gettextx(i))
+            .attr('y', (d, i) => gettexty(i))
+            .attr('font-size', 1.8)
+            .attr('fill', 'black')
+            .attr('text-anchor', 'middle')
+            .attr('dominant-baseline', 'hanging')
+            .text((d, i) => d);
+        function drawTernary(nutritions) {
+          svg.selectAll('circle').remove();
+          let random = d3.randomUniform(0, 1);
+          let randdata = [];
+          for (let i = 0; i < 20000; i++) {
+            let u = random();
+            let v = random() * (1 - u);
+            let w = (1 - u - v);
+            randdata.push([u, v, w]);
+          }
+          let realdata = [];
+          for (let i = 0; i < dataLength; i++) {
+            var u = +rows[i][nutritions[0]];
+            var v = +rows[i][nutritions[1]];
+            var w = +rows[i][nutritions[2]];
+            var x = +rows[i]['cate_id'];
+            console.log(x);
+            var tot = u + v + w;
+            u /= tot;
+            v /= tot;
+            w /= tot;
+            realdata.push([[u, v, w], x]);
+          }
+          svg.selectAll('nothing')
+            .data(realdata)
+            .enter()
+            .append('circle')
+              .attr('cx', (d) => getcx(d[0], d[1]))
+              .attr('cy', (d) => getcy(d[0], d[1]))
+              .attr('r', 0.5)
+              .style('fill', 'none')
+              .attr('stroke', 'black')
+              .attr('stroke-width', 0.3)
+              .attr('vector-effect', 'non-scaling-stroke')
+        }
+
+        var innerContainer = document.querySelector('[plot-num="0"');
+        var columnSelector1 = innerContainer.querySelector('[columndata-id="1"]');
+        var columnSelector2 = innerContainer.querySelector('[columndata-id="2"]');
+        var columnSelector3 = innerContainer.querySelector('[columndata-id="3"]');
+        var textElement1 = innerContainer.querySelector('[text-id="1"]');
+        var textElement2 = innerContainer.querySelector('[text-id="2"]');
+        var textElement3 = innerContainer.querySelector('[text-id="3"]');
+
+        function assignOptions(textArray, selector) {
+          for (var i = 0; i < textArray.length; i++) {
+            var currentOption = document.createElement('option');
+            currentOption.text = textArray[i];
+            selector.appendChild(currentOption);
+          }
+        }
+
+        var listof1Columns = ['carb', 'protein', 'fat', 'energy', 'sugar', 'fiber', 'Na', 'Ca', 'Fe'];
+
+        assignOptions(listof1Columns, columnSelector1);
+        assignOptions(listof1Columns, columnSelector2);
+        assignOptions(listof1Columns, columnSelector3);
+        columnSelector1.selectedIndex = 1;
+        columnSelector2.selectedIndex = 2;
+        columnSelector3.selectedIndex = 0;
+        updateColumn();
+
+        function updateColumn() {
+          textElement1.textContent = columnSelector1.value;
+          textElement2.textContent = columnSelector2.value;
+          textElement3.textContent = columnSelector3.value;
+          drawTernary([columnSelector1.value, columnSelector2.value, columnSelector3.value]);
+        }
+        
+        columnSelector1.addEventListener('change', updateColumn, false);
+        columnSelector2.addEventListener('change', updateColumn, false);
+        columnSelector3.addEventListener('change', updateColumn, false);
+      });
+
     </script>
-    <!--script>
-      let svg = d3.select("svg");
-      let circles2 = svg.selectAll("circle")
-                        .data([10, 20, 50, 100])
-                        .enter()
-                        .append('circle')
-                          .attr('cx', (d, i) => 100 * (i + 1))
-                          .attr('cy', (d, i) => 100 * (i + 1))
-                          .attr('r', d => d)
-                          .style("fill", "blue");
-    </script-->
-    
     <p></p>
   </div>
 </div>
