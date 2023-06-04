@@ -117,8 +117,10 @@ iframe {
 <div class="w3-container" id="nutrients">
   <div class="w3-content" style="max-width:700px" plot-num="0">
     <h5 class="w3-center w3-padding-64"><span class="tag w3-wide">Nutrient ingredients in different food</span></h5>
-    <p style="font-size: 16px">Each point in the ternary diagram is a single food in the food group and is plotted as a ternary diagram according to the relative proportion of nutrients it contains.</p>
+    <p>The following ternary diagram shows the relative relationship of different nutrients in different groups of food.</p>
+    <p>Each point in the ternary diagram is a single food in the food group and is plotted as a ternary diagram according to the relative proportion of nutrients it contains.</p>
     <p>The value of each datapoint is the percentile of the nutrient value among all the foods.</p>
+    <p>By selecting three different nutrients, we can see the features of different groups. For example, whether a group of food is high calorie or high protein.</p>
     <svg viewBox="0 0 100 70" preserveAspectRatio="xMidYMid meet" width="100%" height="auto">
       <!--polygon points="0,0 0,70 100,70 100,0" fill="none" stroke="black"/-->
       <!--polygon points="0,0 0,14 100,14 100,0" fill="none" stroke="red"/-->
@@ -129,7 +131,7 @@ iframe {
       <polygon points="81,1.6 88,13.6 74,13.6" fill="none" stroke="black" stroke-width="1" vector-effect="non-scaling-stroke" dominant-baseline="text-bottom"/>
     </svg>
     <div class="control-row">
-      Nutrition 1: <select class="columndata" columndata-id="1"></select> Nutrition 2: <select class="columndata" columndata-id="2"></select> Nutrition 3: <select class="columndata" columndata-id="3"></select>
+      Nutrient 1: <select class="columndata" columndata-id="1"></select> Nutrient 2: <select class="columndata" columndata-id="2"></select> Nutrient 3: <select class="columndata" columndata-id="3"></select>
     </div>
     <script>
       d3.csv('https://raw.githubusercontent.com/com-480-data-visualization/project-2023-the-travelers/master/Notebook/sampled_nutrients.csv').then(function(rows){
